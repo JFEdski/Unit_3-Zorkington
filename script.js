@@ -14,18 +14,18 @@
 */
 
 export const gameDetails = {   
-    title: 'Game Title',
-    desc: 'Welcome to the world of... here are some quick rules & concepts...',
-    author: 'Student Name',
-    cohort: 'SBPT-2022',
-    startingRoomDescription: 'What you see before you is...',
+    title: 'Journey Through Time',
+    desc: 'Welcome to the Journey Through Time! On your journey, you will explore different decades throughout American culture, from the 1960s to the 2000s. Hold on tight and safe [time] travels!',
+    author: 'Jared Edelinski',
+    cohort: 'SBPT-06-2023',
+    startingRoomDescription: 'You start your journey in a room with white walls and no ceiling. There is a harp in the corner, a scroll lying on a Roman pedestal, and a pearly gate in front of you.',
     playerCommands: [
         // replace these with your games commands as needed
-        'inspect', 'view', 'look', 'pickup',
+        'inspect', 'play', 'read', 'pickup', 
     ]
     // Commands are basic things that a player can do throughout the game besides possibly moving to another room. This line will populate on the footer of your game for players to reference. 
     // This shouldn't be more than 6-8 different commands.
-}
+} 
 
 // Your code here
 
