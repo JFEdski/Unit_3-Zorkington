@@ -21,7 +21,7 @@ export const gameDetails = {
     startingRoomDescription: 'You start your journey in a room with white walls and no ceiling. There is a harp in the corner, a scroll lying on a Roman pedestal, and a pearly gate in front of you.',
     playerCommands: [
         // replace these with your games commands as needed
-        'inspect', 'play', 'read', 'pickup', 
+        'inspect', 'play', 'read', 'open', 'pickup', 
     ]
     // Commands are basic things that a player can do throughout the game besides possibly moving to another room. This line will populate on the footer of your game for players to reference. 
     // This shouldn't be more than 6-8 different commands.
