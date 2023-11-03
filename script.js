@@ -18,7 +18,7 @@ export const gameDetails = {
     desc: 'Welcome to the Journey Through Time! On your journey, you will explore different decades throughout American culture, from the 1970s to the 2000s. Hold on tight and safe [time] travels!',
     author: 'Jared Edelinski',
     cohort: 'SBPT-06-2023',
-    startingRoomDescription: 'You start your journey in a room with white walls and no ceiling. There is a harp in the corner, a scroll lying on a Roman pedestal, and a pearly gate in front of you.',
+    startingRoomDescription: 'You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies.',
     playerCommands: [
         // replace these with your games commands as needed
         'inspect', 'play', 'enter', 'pickup'
@@ -76,33 +76,37 @@ class Item {
    
 let scroll = new Item(
     'scroll',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'An old parchment with a strange poem about moving backwards.',
     'beginning',
     true
 )
 
 let moodRing = new Item(
     'mood ring',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
-    'seventies'
+    'A special ring that changes color depending on your mood.',
+    'seventies',
+    true
 )
 
 let gameboy = new Item(
     'gameboy',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
-    'eighties'
+    'A handheld videogame system that plays Nintendo games.',
+    'eighties',
+    true
 )
 
 let pogs = new Item(
     'pogs',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
-    'nineties'
+    'Small cardboard discs that have cool designs on them.',
+    'nineties',
+    true
 )
 
 let nokia = new Item(
-    'scroll',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
-    'y2k'
+    'nokia',
+    'A phone that can fit in your pocket and play a game called "Snake."',
+    'y2k',
+    true
 )
 
 let state = {
@@ -130,8 +134,15 @@ export const domDisplay = (playerInput) => {
         currentState = state[target];
         console.log(state[target]);
         return currentState.description;
-    } else {
-        return (`You cannot go here, you can only to ${currentState}!`);
+    } else if(action === 'enter' && !currentState.exits.includes(target)) {
+        return ("That is not an option!")
+    }   else {
+        return (`You cannot go here, you can only go to ${currentState.exits}!`);
+    };
+
+    if(action === "pickup" && currentState.items.includes(target)) {
+        playerInventory.push(target);
+        console.log("inventory:", playerInventory)
     }
 
 
