@@ -15,21 +15,126 @@
 
 export const gameDetails = {   
     title: 'Journey Through Time',
-    desc: 'Welcome to the Journey Through Time! On your journey, you will explore different decades throughout American culture, from the 1960s to the 2000s. Hold on tight and safe [time] travels!',
+    desc: 'Welcome to the Journey Through Time! On your journey, you will explore different decades throughout American culture, from the 1970s to the 2000s. Hold on tight and safe [time] travels!',
     author: 'Jared Edelinski',
     cohort: 'SBPT-06-2023',
     startingRoomDescription: 'You start your journey in a room with white walls and no ceiling. There is a harp in the corner, a scroll lying on a Roman pedestal, and a pearly gate in front of you.',
     playerCommands: [
         // replace these with your games commands as needed
-        'inspect', 'play', 'read', 'open', 'pickup', 
+        'inspect', 'play', 'enter', 'pickup'
     ]
     // Commands are basic things that a player can do throughout the game besides possibly moving to another room. This line will populate on the footer of your game for players to reference. 
     // This shouldn't be more than 6-8 different commands.
 } 
 
+class Room {
+    constructor(exits, description, items) {
+      this.exits = exits;
+      this.description = description;
+      this.items = items;
+    }
+};
+
+let beginning = new Room(
+    ['seventies'],
+    'You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies',
+    ['scroll']
+);
+
+let seventies = new Room(
+    ['eighties'],
+    'You are in a room with a disco ball hanging from the ceiling. There is a record player in the corner and a mood ring on a table. From here, you can move on to the eighties',
+    ['mood ring']
+)
+
+let eighties = new Room(
+    ['nineties'],
+    'You are in a room with neon signs lighting the area. There is a boombox in the corner and a gameboy on a table. From here, yo can move on to the nineties',
+    ['gameboy']
+)
+
+let nineties = new Room(
+    ['y2k'],
+    'You are in a room with walls covered with Magic Eye wallpaper. There is a Sony Discman on a table and a pile of pogs on the floor. From here, you can go back to y2k',
+    ['pogs']
+)
+
+let y2k = new Room(
+    ['beginning'],
+    'You are in a room with big balloons in the shape of "Y2K." There is an iPod nano on a table and a Nokia RAZR on a desk. From here, you can go back to the beginning.',
+    ['nokia']
+)
+
+class Item {
+    constructor(name, description, location, move) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.move = move;
+    }
+}
+   
+let scroll = new Item(
+    'scroll',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'beginning',
+    true
+)
+
+let moodRing = new Item(
+    'mood ring',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'seventies'
+)
+
+let gameboy = new Item(
+    'gameboy',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'eighties'
+)
+
+let pogs = new Item(
+    'pogs',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'nineties'
+)
+
+let nokia = new Item(
+    'scroll',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur mi eget enim aliquam porttitor. Nulla et arcu ut dui semper hendrerit. Sed bibendum libero at lacus volutpat facilisis.',
+    'y2k'
+)
+
+let state = {
+    beginning: beginning,
+    'seventies': seventies,
+    'eighties': eighties,
+    'nineties': nineties,
+    'y2k': y2k
+} 
+
+let currentState = beginning;
+let playerInventory = [];
+
 // Your code here
 
 export const domDisplay = (playerInput) => {
+    console.log(typeof playerInput);
+    let playerInputArr = playerInput.split(' ');
+    console.log(playerInputArr);
+
+    let action = playerInputArr[0];
+    let target = playerInputArr[1];
+
+    if(action === 'enter' && currentState.exits.includes(target)) {
+        currentState = state[target];
+        console.log(state[target]);
+        return currentState.description;
+    } else {
+        return (`You cannot go here, you can only to ${currentState}!`);
+    }
+
+
     /* 
         TODO: for students
         - This function must return a string. 
