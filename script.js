@@ -31,6 +31,7 @@ export const gameDetails = {
   // This shouldn't be more than 6-8 different commands.
 };
 
+// Creating the "Room" class
 class Room {
   constructor(exits, description, items) {
     this.exits = exits;
@@ -39,6 +40,7 @@ class Room {
   }
 }
 
+// Lines 44-72: Creating instances of Room
 let beginning = new Room(
   ["seventies"],
   "You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies.",
@@ -69,6 +71,7 @@ let y2k = new Room(
   ["nokia", "iPod"]
 );
 
+// Creating the "Item" class
 class Item {
   constructor(name, description, location, move) {
     this.name = name;
@@ -78,6 +81,7 @@ class Item {
   }
 }
 
+// Lines 85-153: Creating instances of Item
 let scroll = new Item(
   "scroll",
   "an old parchment containing esoteric knowledge",
@@ -114,11 +118,11 @@ let nokia = new Item(
 );
 
 let harp = new Item(
-    "harp",
-    "The music emanating from this instrument souds angelic",
-    "beginning",
-    false
-  );
+  "harp",
+  "The music emanating from this instrument souds angelic",
+  "beginning",
+  false
+);
 
 let recordPlayer = new Item(
   "recordplayer",
@@ -128,26 +132,27 @@ let recordPlayer = new Item(
 );
 
 let boombox = new Item(
-    "boombox",
-    "This plays music from the radio and cassette tapes",
-    "eighties",
-    false
-  );
+  "boombox",
+  "This plays music from the radio and cassette tapes",
+  "eighties",
+  false
+);
 
-  let discman = new Item(
-    "discman",
-    "This plays music from compact discs called 'CDs'",
-    "nineties",
-    false
-  );
+let discman = new Item(
+  "discman",
+  "This plays music from compact discs called 'CDs'",
+  "nineties",
+  false
+);
 
-  let iPod = new Item(
-    "iPod",
-    "This plays music that has been transferred from a computer",
-    "y2k",
-    false
-  );
+let iPod = new Item(
+  "iPod",
+  "This plays music that has been transferred from a computer",
+  "y2k",
+  false
+);
 
+// Creating Room dictionary
 let state = {
   beginning: beginning,
   seventies: seventies,
@@ -156,6 +161,7 @@ let state = {
   y2k: y2k,
 };
 
+// Creating Item dictionary
 let itemDict = {
   scroll: scroll,
   moodring: moodRing,
@@ -166,49 +172,56 @@ let itemDict = {
   recordplayer: recordPlayer,
   boombox: boombox,
   discman: discman,
-  iPod: iPod
+  iPod: iPod,
 };
 
+// Setting the starting state of the game
 let currentState = beginning;
+
+// Creating the player's inventory with an empty array
 let playerInventory = [];
 
 // Your code here
 
 export const domDisplay = (playerInput) => {
-
+  // Splitting the player's input (string) into substrings into an array
   let playerInputArr = playerInput.split(" ");
-
+  // Declaring the first index of the playerInput array
   let action = playerInputArr[0];
-
+  // Declaring the second index of the playerInput array
   let target = playerInputArr[1];
 
+  // Conditional containing the action needed with available exit to allow the player to navigate rooms
   if (action === "enter" && currentState.exits.includes(target)) {
     currentState = state[target];
     return currentState.description;
   }
+  // Conditional containing the action needed with name of item to pick up items and be put in the player's inventory
   if (action === "pickup" && currentState.items.includes(target)) {
     if (itemDict[target].move === true) {
       playerInventory.push(target);
-      return (`You have just picked up ${itemDict[target].description}! You can now move on to the ${currentState.exits}!`);
-    } else if(itemDict[target].move === false) {
-      return (`Sorry, you cannot pickup the ${itemDict[target].name}! But, you CAN go to the ${currentState.exits}!`);
-    } 
+      return `You have just picked up ${itemDict[target].description}! You can now move on to the ${currentState.exits}!`;
+      // Part of the conditional that prevents the player from picking up immutable items
+    } else if (itemDict[target].move === false) {
+      return `Sorry, you cannot pickup the ${itemDict[target].name}! But, you CAN go to the ${currentState.exits}!`;
+    }
   }
+  // Conditional containing the action needed with name of item to remove items from the player's inventory
   if (action === "drop" && playerInventory.includes(target)) {
     let result = playerInventory.filter((item) => item !== target);
     playerInventory = result;
-    return (`You have dropped the ${itemDict[target].name}!`);
-  } 
+    return `You have dropped the ${itemDict[target].name}!`;
+  }
+  // Conditional that allows the player to view their inventory
   if (action === "view" && target === "inventory") {
     return playerInventory;
-  }
-  else {
-    return (`You cannot go here, you can only go to ${currentState.exits}!`);
+  } else {
+    return `You cannot go here, you can only go to ${currentState.exits}!`;
   }
 
   /* 
-        TODO: for students
-        - This function must return a string. 
+  TODO: for students
+  - This function must return a string. 
         - This will be the information that is displayed within the browsers game interface above the users input field.
 
         - This function name cannot be altered. 
