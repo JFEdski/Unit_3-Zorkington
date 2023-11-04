@@ -42,7 +42,7 @@ class Room {
 let beginning = new Room(
   ["seventies"],
   "You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies.",
-  ["scroll"]
+  ["scroll", "harp"]
 );
 
 let seventies = new Room(
@@ -53,20 +53,20 @@ let seventies = new Room(
 
 let eighties = new Room(
   ["nineties"],
-  "You are in a room with neon signs lighting the area. There is a boombox in the corner and a gameboy on a table. From here, yo can move on to the nineties.",
-  ["gameboy"]
+  "You are in a room with neon signs lighting the area. There is a boombox in the corner and a gameboy on a table. From here, you can move on to the nineties.",
+  ["gameboy", "boombox"]
 );
 
 let nineties = new Room(
   ["y2k"],
   "You are in a room with walls covered with Magic Eye wallpaper. There is a discman on a table and a pile of pogs on the floor. From here, you can go back to y2k.",
-  ["pogs"]
+  ["pogs", "discman"]
 );
 
 let y2k = new Room(
   ["beginning"],
-  'You are in a room with big balloons in the shape of "Y2K." There is an iPod on a table and a Nokia RAZR on a desk. From here, you can go back to the beginning.',
-  ["nokia"]
+  'You are in a room with big balloons in the shape of "Y2K." There is an iPod on a table and a nokia on a desk. From here, you can go back to the beginning.',
+  ["nokia", "iPod"]
 );
 
 class Item {
@@ -80,70 +80,70 @@ class Item {
 
 let scroll = new Item(
   "scroll",
-  "an old parchment with a strange poem about moving backwards.",
+  "an old parchment containing esoteric knowledge",
   "beginning",
   true
 );
 
 let moodRing = new Item(
   "moodring",
-  "a special ring that changes color depending on your mood.",
+  "a special ring that changes color depending on your mood",
   "seventies",
   true
 );
 
 let gameboy = new Item(
   "gameboy",
-  "a handheld videogame system that plays Nintendo games.",
+  "a handheld videogame system that plays Nintendo games",
   "eighties",
   true
 );
 
 let pogs = new Item(
   "pogs",
-  "small cardboard discs that have cool designs on them.",
+  "small cardboard discs that have cool designs on them",
   "nineties",
   true
 );
 
 let nokia = new Item(
   "nokia",
-  'a phone that can fit in your pocket and play a game called "Snake."',
+  'a phone that can fit in your pocket and play a game called "Snake"',
   "y2k",
   true
 );
 
 let harp = new Item(
     "harp",
-    "The music emanating from this instrument souds angelic.",
+    "The music emanating from this instrument souds angelic",
     "beginning",
     false
   );
 
 let recordPlayer = new Item(
   "recordplayer",
-  "This plays vinyl records.",
+  "This plays vinyl records",
   "seventies",
   false
 );
 
 let boombox = new Item(
     "boombox",
-    "This plays music from the radio and cassette tapes.",
+    "This plays music from the radio and cassette tapes",
     "eighties",
     false
   );
 
   let discman = new Item(
     "discman",
-    "This plays music from compact discs called 'CDs'.",
+    "This plays music from compact discs called 'CDs'",
     "nineties",
     false
   );
 
   let iPod = new Item(
     "iPod",
-    "This plays music that has been transferred from a computer.",
+    "This plays music that has been transferred from a computer",
     "y2k",
     false
   );
@@ -189,21 +189,21 @@ export const domDisplay = (playerInput) => {
   if (action === "pickup" && currentState.items.includes(target)) {
     if (itemDict[target].move === true) {
       playerInventory.push(target);
-      return `You have just picked up ${itemDict[target].description}!`;
+      return (`You have just picked up ${itemDict[target].description}! You can now move on to the ${currentState.exits}!`);
     } else if(itemDict[target].move === false) {
-      return `Sorry, you can't pickup ${itemDict[target].name}!`;
+      return (`Sorry, you cannot pickup the ${itemDict[target].name}! But, you CAN go to the ${currentState.exits}!`);
     } 
   }
   if (action === "drop" && playerInventory.includes(target)) {
     let result = playerInventory.filter((item) => item !== target);
     playerInventory = result;
-    return `You have dropped the ${itemDict[target].name}`;
+    return (`You have dropped the ${itemDict[target].name}!`);
   } 
   if (action === "view" && target === "inventory") {
     return playerInventory;
   }
   else {
-    return `You cannot go here, you can only go to ${currentState.exits}!`;
+    return (`You cannot go here, you can only go to ${currentState.exits}!`);
   }
 
   /* 
