@@ -41,31 +41,31 @@ class Room {
 
 let beginning = new Room(
   ["seventies"],
-  "You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies",
+  "You start your journey in a room with white walls and no ceiling. There is a harp in the corner and a scroll lying on a Roman pedestal. From here, you can move on to the seventies.",
   ["scroll"]
 );
 
 let seventies = new Room(
   ["eighties"],
-  "You are in a room with a disco ball hanging from the ceiling. There is a recordplayer in the corner and a moodring on a table. From here, you can move on to the eighties",
+  "You are in a room with a disco ball hanging from the ceiling. There is a recordplayer in the corner and a moodring on a table. From here, you can move on to the eighties.",
   ["moodring", "recordplayer"]
 );
 
 let eighties = new Room(
   ["nineties"],
-  "You are in a room with neon signs lighting the area. There is a boombox in the corner and a gameboy on a table. From here, yo can move on to the nineties",
+  "You are in a room with neon signs lighting the area. There is a boombox in the corner and a gameboy on a table. From here, yo can move on to the nineties.",
   ["gameboy"]
 );
 
 let nineties = new Room(
   ["y2k"],
-  "You are in a room with walls covered with Magic Eye wallpaper. There is a Sony Discman on a table and a pile of pogs on the floor. From here, you can go back to y2k",
+  "You are in a room with walls covered with Magic Eye wallpaper. There is a discman on a table and a pile of pogs on the floor. From here, you can go back to y2k.",
   ["pogs"]
 );
 
 let y2k = new Room(
   ["beginning"],
-  'You are in a room with big balloons in the shape of "Y2K." There is an iPod nano on a table and a Nokia RAZR on a desk. From here, you can go back to the beginning.',
+  'You are in a room with big balloons in the shape of "Y2K." There is an iPod on a table and a Nokia RAZR on a desk. From here, you can go back to the beginning.',
   ["nokia"]
 );
 
@@ -80,38 +80,45 @@ class Item {
 
 let scroll = new Item(
   "scroll",
-  "An old parchment with a strange poem about moving backwards.",
+  "an old parchment with a strange poem about moving backwards.",
   "beginning",
   true
 );
 
 let moodRing = new Item(
   "moodring",
-  "A special ring that changes color depending on your mood.",
+  "a special ring that changes color depending on your mood.",
   "seventies",
   true
 );
 
 let gameboy = new Item(
   "gameboy",
-  "A handheld videogame system that plays Nintendo games.",
+  "a handheld videogame system that plays Nintendo games.",
   "eighties",
   true
 );
 
 let pogs = new Item(
   "pogs",
-  "Small cardboard discs that have cool designs on them.",
+  "small cardboard discs that have cool designs on them.",
   "nineties",
   true
 );
 
 let nokia = new Item(
   "nokia",
-  'A phone that can fit in your pocket and play a game called "Snake."',
+  'a phone that can fit in your pocket and play a game called "Snake."',
   "y2k",
   true
 );
+
+let harp = new Item(
+    "harp",
+    "The music emanating from this instrument souds angelic.",
+    "beginning",
+    false
+  );
 
 let recordPlayer = new Item(
   "recordplayer",
@@ -119,6 +126,27 @@ let recordPlayer = new Item(
   "seventies",
   false
 );
+
+let boombox = new Item(
+    "boombox",
+    "This plays music from the radio and cassette tapes.",
+    "eighties",
+    false
+  );
+
+  let discman = new Item(
+    "discman",
+    "This plays music from compact discs called 'CDs'.",
+    "nineties",
+    false
+  );
+
+  let iPod = new Item(
+    "iPod",
+    "This plays music that has been transferred from a computer.",
+    "y2k",
+    false
+  );
 
 let state = {
   beginning: beginning,
@@ -134,7 +162,11 @@ let itemDict = {
   gameboy: gameboy,
   pogs: pogs,
   nokia: nokia,
+  harp: harp,
   recordplayer: recordPlayer,
+  boombox: boombox,
+  discman: discman,
+  iPod: iPod
 };
 
 let currentState = beginning;
@@ -143,40 +175,33 @@ let playerInventory = [];
 // Your code here
 
 export const domDisplay = (playerInput) => {
-  console.log(typeof playerInput);
+
   let playerInputArr = playerInput.split(" ");
-  console.log(playerInputArr);
 
   let action = playerInputArr[0];
+
   let target = playerInputArr[1];
 
   if (action === "enter" && currentState.exits.includes(target)) {
     currentState = state[target];
-    console.log(state[target]);
     return currentState.description;
-    // } else if(action === 'enter' && !currentState.exits.includes(target)) {
-    //     return ("That is not an option!")
   }
   if (action === "pickup" && currentState.items.includes(target)) {
-    console.log(target);
     if (itemDict[target].move === true) {
       playerInventory.push(target);
-      console.log(playerInventory);
       return `You have just picked up ${itemDict[target].description}!`;
-    } else {
+    } else if(itemDict[target].move === false) {
       return `Sorry, you can't pickup ${itemDict[target].name}!`;
-    }
+    } 
   }
   if (action === "drop" && playerInventory.includes(target)) {
     let result = playerInventory.filter((item) => item !== target);
     playerInventory = result;
-    console.log(playerInventory);
     return `You have dropped the ${itemDict[target].name}`;
   } 
   if (action === "view" && target === "inventory") {
-    return playerInventory
+    return playerInventory;
   }
-  
   else {
     return `You cannot go here, you can only go to ${currentState.exits}!`;
   }
